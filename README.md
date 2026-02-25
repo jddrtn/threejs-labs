@@ -6,11 +6,5 @@ This repository documents my journey as I explore scene setup, lighting, materia
 
 ## Projects
 
-### 01 — White Cube
+### 01 - White Cube
 A simple Three.js setup rendering a simple rotating white cube.
-
-## 🛠 Tech Stack
-
-- JavaScript
-- Three.js
-- WebGL
