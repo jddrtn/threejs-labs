@@ -9,49 +9,63 @@
   </style>
 </head>
 <body>
-  <script type="module">
-    import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+ <script type="module">
+  import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
 
-    // Scene
-    const scene = new THREE.Scene();
+  // Scene
+  const scene = new THREE.Scene();
 
-    // Camera
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      100
-    );
-    camera.position.z = 3;
+  // Camera
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    100
+  );
+  camera.position.z = 3;
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+  // Renderer
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  document.body.appendChild(renderer.domElement);
 
-    // Geometry + Material
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+  // Geometry
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
 
-    // Animation loop
-    function animate() {
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+  // Material (wireframe initially off)
+  const material = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    wireframe: false
+  });
 
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  // Animation loop
+  function animate() {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Wireframe toggle (press W)
+  window.addEventListener("keydown", (event) => {
+    if (event.key.toLowerCase() === "w") {
+      material.wireframe = !material.wireframe;
     }
+  });
 
-    animate();
-
-    // Resize handler
-    window.addEventListener("resize", () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  </script>
+  // Resize handler
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  });
+</script>
 </body>
 </html>
